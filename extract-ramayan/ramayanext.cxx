@@ -7,17 +7,33 @@
 #include <exception>
 #include <string>
 #include <iostream>
+#include <stdlib.h>
 
 using namespace std;
 
+void formCsvFilesLevel1();
+void formCsvFilesLevel2();
+void formCsvFIlesLevel3();
+
+const int totalKhandas = 6;
+const string khandas[] = { "baala", "ayodhya", "aranya", "kishkindha", "sundara", "yuddha"};
+const int totalSargas[] = { 77, 119, 75, 67, 68, 128};
+const string khandaFileName[] = { "balasans", "ayodhyasans", "aranyasans", "kishkindhasans", "sundarasans", "yuddhasans"};
+
 int main (void) {
 
-    string khandas[] = { "baala", "ayodhya", "aranya", "kishkindha", "sundara", "yuddha"};
-    int totalSargas[] = { 77, 119, 75, 67, 68, 128};
-    string khandaFileName[] = { "balasans", "ayodhyasans", "aranyasans", "kishkindhasans", "sundarasans", "yuddhasans"};
+    formCsvFilesLevel1();
+    formCsvFilesLevel2();
+    formCsvFIlesLevel3();
+
+    return 0;
+}
+
+void formCsvFilesLevel1()
+{
     std::string htmlTagsToBeSearched[] = {"&quot;", "&nbsp;"};
                 
-    for (size_t khandaNo = 0; khandaNo < 6; ++khandaNo)
+    for (size_t khandaNo = 0; khandaNo < totalKhandas; ++khandaNo)
     {
         std::cout << "Processing Khanda : " << khandas[khandaNo] << std:: endl;
         for (int sargaNo = 1; sargaNo <= totalSargas[khandaNo]; ++sargaNo)
@@ -82,9 +98,49 @@ int main (void) {
                 outputStream.close();
             } catch (const std::exception &e) {
                 std::cerr << e.what() << "\n";
-                return 1;
+                return;
             } //end try
         } //End of each sarga
     } //end of all khandas
-    return 0;
+}
+
+void formCsvFilesLevel2()
+{
+   for (size_t khandaNo = 0; khandaNo < totalKhandas; ++khandaNo)
+    {
+        std::cout << "Processing Khanda : " << khandas[khandaNo] << std:: endl;
+        ofstream khandaFileStream;
+        string khandaFileNamePart = khandas[khandaNo] + "/" + khandaFileName[khandaNo];
+        string khandaFileName = "./resources/ramayan-ext-1/" + khandaFileNamePart + ".txt";
+
+        std::cout << "concatenating Khanda" <<  khandaFileNamePart << std::endl;       
+        for (int sargaNo = 1; sargaNo <= totalSargas[khandaNo]; ++sargaNo)
+        {
+            try {
+                char sargaNoFmt[10];
+                sprintf(sargaNoFmt, "%03d", sargaNo);
+                string inputFileName = "./resources/ramayan-ext-1/" + khandaFileNamePart + std::string(sargaNoFmt) + ".txt";
+                string commandStr = "cat " + inputFileName + " >>" +  khandaFileName;
+                //std::cout << "commadn Str is "  << commandStr << std::endl;
+                system(commandStr.c_str());
+            }
+            catch (exception e)
+            {
+
+            }
+        }
+    }
+}
+
+void formCsvFIlesLevel3()
+{
+   std::cout << "Final concatenation" << std::endl;
+   for (size_t khandaNo = 0; khandaNo < totalKhandas; ++khandaNo)
+    {
+        ofstream khandaFileStream;
+        string khandaFileNamePart = khandas[khandaNo] + "/" + khandaFileName[khandaNo];
+        string khandaFileName = "./resources/ramayan-ext-1/" + khandaFileNamePart + ".txt";
+        string commandStr = "cat " + khandaFileName +  " >> ./resources/ramayan-ext-1/ramayan.txt";
+        system(commandStr.c_str());
+    }
 }
