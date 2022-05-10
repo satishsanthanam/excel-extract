@@ -1,7 +1,7 @@
 # excel-extract
 
-unzip ramayan.zip in resources folder ./extract-ramayan/resources/
-unzip -d ramayan.zip
+untar ramayan.tar in resources folder ./extract-ramayan/resources/
+tar -xvf ramayan.tar
 
 Create below folders manually ./extract-ramayan/resources/ramayan-ext-1
 
