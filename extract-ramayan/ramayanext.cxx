@@ -92,7 +92,8 @@ void formCsvFilesLevel1()
                             }
                         } while (hashTagPos != std::string::npos);
                     }
-                    outputStream << to_string(khandaNo+1) << "~" << to_string(sargaNo) <<  "~"  << to_string(verseNo++) << "~" << extractedString << std::endl;
+                    string verseLoc = to_string(khandaNo+1) + "-" + to_string(sargaNo) +  "-"  + to_string(verseNo++); 
+                    outputStream << verseLoc << "~" << extractedString << std::endl;
                     anchor = n;
                 } while (anchor != std::string::npos);
                 outputStream.close();
