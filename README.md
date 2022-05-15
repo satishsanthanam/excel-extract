@@ -16,4 +16,4 @@ g++ ramayanext.cxx -o ramayan
 
 ./ramayan
 
-The output will be text files created in ramayan-ext-1 folder
+The output will be text files created in ramayan-ext-1 folder.
